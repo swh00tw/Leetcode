@@ -1,3 +1,4 @@
+# easy
 class Solution(object):
     def convertToTitle(self, columnNumber):
         """
