@@ -5,32 +5,28 @@
 #
 
 # @lc code=start
+class Person:
+    def __init__(self, id):
+        self.id=id
+        self.number = id+1
+        self.givenTrust=0
+        self.beingTrusted=0
+
 class Solution:
     def findJudge(self, n: int, trust: List[List[int]]) -> int:
-        # create an array to store the relationship of being trusted
-        # arr[i] = # of people trust him/her
-        numOfTrust = [0]*n
-        # create a hasmap to track the people who trust someone
-        # key = the person who trust someone
-        givenTrust = {}
-        # parse the given array
-        for relationship in trust:
-            givenTrust[relationship[0]-1] = True
-            trustedIndex = relationship[1]-1
-            numOfTrust[trustedIndex] += 1
-        # the result must be only one person has n-1 trusted,
-        # and the rest of people has 0 trusted
-        peopleHasNMinusOneTrust = 0
-        judgeIndex = -1
-        for i in range(n):
-            if numOfTrust[i] == n-1:
-                peopleHasNMinusOneTrust += 1
-                judgeIndex = i
-        
-        if peopleHasNMinusOneTrust == 1 and givenTrust.get(judgeIndex) == None:
-            return judgeIndex+1
-        else:
-            return -1
+        people = [Person(i) for i in range(n)]
+        # parse the array
+        for i in range(len(trust)):
+            people[trust[i][0]-1].givenTrust+=1
+            people[trust[i][1]-1].beingTrusted+=1
+        # find the judge
+        for p in people:
+            if p.givenTrust==0 and p.beingTrusted==n-1:
+                return p.number
+        return -1
+    
+
+
             
         
 # @lc code=end
