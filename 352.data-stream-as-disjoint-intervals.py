@@ -5,7 +5,7 @@
 #
 
 # @lc code=start
-class NumUnion:
+class NumInterval:
     def __init__(self, firstNum):
         self.nums = [firstNum]
         self.min = firstNum
@@ -44,20 +44,19 @@ class SummaryRanges:
         self.nums = self.nums[:insertPosition]+[value]+self.nums[insertPosition:]
 
     def getIntervals(self) -> List[List[int]]:
-        # linear time find union
         if len(self.nums) == 0:
             return []
-        unions=[]
-        union = NumUnion(self.nums[0])
+        intervals=[]
+        interval = NumInterval(self.nums[0])
         for i in range(1,len(self.nums)):
             newValue = self.nums[i]
-            if union.isAddable(newValue):
-                union.updateMax(newValue)
+            if interval.isAddable(newValue):
+                interval.updateMax(newValue)
             else:
-                unions.append(union)
-                union = NumUnion(newValue)
-        unions.append(union)
-        return [[u.min, u.max] for u in unions]
+                intervals.append(interval)
+                interval = NumInterval(newValue)
+        intervals.append(interval)
+        return [[u.min, u.max] for u in intervals]
         
         
 
