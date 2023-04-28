@@ -23,7 +23,7 @@ class Group:
         return f"{self.words}"
 
 def mergeGroups(groups, indice, s):
-    newWords=[s]
+    newWords=[ s ]
     for i in indice:
         newWords+=groups[i].words
     newGroups=[]
