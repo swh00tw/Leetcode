@@ -6,6 +6,7 @@
 
 # @lc code=start
 
+# ref: https://leetcode.com/problems/checking-existence-of-edge-length-limited-paths/solutions/3464839/python-java-c-simple-solution-easy-to-understand/
 class UnionFind:
     def __init__(self, n):
         self.parent = list(range(n))
