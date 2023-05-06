@@ -10,9 +10,9 @@ class Solution:
     def numSubseq(self, nums: List[int], target: int) -> int:
         # sorted the nums first
         # maintain 2 pointers: left, right
-        # traverse all (min, max) pair
-        # if we find one (min, max) pair, the # of answers is 2^(right-left-1) 
-        # since we can freely add the element between them in to list to form a valid subseq
+        # traverse all possible minimum of all subseq (by left pointer)
+        # move right pointer to the index so that nums[left]+nums[right]<=target
+        # the all "valid" subseq that start from left index is 2^(right-left)
         n = len(nums)
         nums.sort()
 
