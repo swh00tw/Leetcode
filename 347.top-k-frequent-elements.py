@@ -5,14 +5,10 @@
 #
 
 # @lc code=start
+from collections import Counter
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        numberFreq = {}
-        for n in nums:
-            if numberFreq.get(n):
-                numberFreq[n] += 1
-            else:
-                numberFreq[n] = 1
+        numberFreq = Counter(nums)
         kvs = []
         for key in numberFreq:
             kvs.append([key, numberFreq[key]])
