@@ -10,7 +10,7 @@ class UnionFind:
         self.root = list(range(n))
         self.degree = [0]*n 
     def find(self, n):
-        # compression
+        # path compression
         if self.root[n]!=n: # it's not root
             self.root[n] = self.find(self.root[n])
         return self.root[n]
