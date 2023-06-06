@@ -12,17 +12,18 @@
 #         self.next = next
 class Solution:
     def pairSum(self, head: Optional[ListNode]) -> int:
-        nums = []
         curr = head
-        while curr:
-            nums.append(curr.val)
+        fast = head
+        res = -inf
+        stack = []
+        while fast and fast.next:
+            stack.append(curr.val)
             curr = curr.next
-        m = -1
-        n = len(nums)
-        for i in range(n//2):
-            tmp = nums[i]+nums[n-1-i]
-            m = max(m, tmp)
-        return m
+            fast = fast.next.next
+        while curr:
+            res = max(res, curr.val+stack.pop())
+            curr = curr.next
+        return res
 
         
 # @lc code=end
