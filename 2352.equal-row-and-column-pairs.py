@@ -5,23 +5,20 @@
 #
 
 # @lc code=start
-from collections import defaultdict
 class Solution:
     def equalPairs(self, grid: List[List[int]]) -> int:
+        ans = 0
         n = len(grid)
         rows = {}
-        cols = defaultdict(list)
-        for i, row in enumerate(grid):
-            rows[i] = row
-            for j in range(n):
-                cols[j].append(row[j])
-        pairs = set()
-        for i in range(n):
-            for j in range(n):
-                if rows[i]==cols[j] and (i,j) not in pairs:
-                    pairs.add((i,j))
-        return len(pairs)
-        
+        for row in grid:
+            rows[tuple(row)] = rows.get(tuple(row), 0)+1
+        # transpose
+        for j in range(n):
+            col = []
+            for i in range(n):
+                col.append(grid[i][j])
+            ans += rows.get(tuple(col), 0)
+        return ans
         
 # @lc code=end
 
