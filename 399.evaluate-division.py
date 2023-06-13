@@ -5,6 +5,7 @@
 #
 
 # @lc code=start
+from collections import defaultdict
 class Solution:
     def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
         # create a graph
@@ -12,18 +13,12 @@ class Solution:
         # we can create an edge from a to bi and the weight is values[i]
         # and an edge from b to a, the weight is inverse number
         # then, if we want a/c, we can start from a and go to c. the answer can be obtained by multuply all weight along the path
-        adjList = {}
+        adjList = defaultdict(list)
         for i in range(len(equations)):
             src, dst = equations[i]
             weight = values[i]
-            if adjList.get(src):
-                adjList[src].append((dst, weight))
-            else:
-                adjList[src] = [(dst, weight)]
-            if adjList.get(dst):
-                adjList[dst].append((src, 1/weight))
-            else:
-                adjList[dst] = [(src, 1/weight)]
+            adjList[src].append((dst, weight))
+            adjList[dst].append((src, 1/weight))
         # print(adjList)
         return [self.getAnswer(adjList, src, dst) for src, dst in queries]
         
