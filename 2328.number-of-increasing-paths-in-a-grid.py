@@ -52,7 +52,6 @@ class Solution:
         #                 nextDp[i+x][j+y]=(nextDp[i+x][j+y]+dp[i][j]) % (10**9+7)
         #                 nextQ.add((i+x, j+y))
         #                 newPaths += dp[i][j]
-
         #     if newPaths==0:
         #         break
         #     ans = (ans+newPaths)%(10**9+7)
