@@ -13,20 +13,18 @@ class Solution:
         # we create a suffixSum array first to reduce tht time complexity
         n = len(stoneValue)
         dp = [0]*n
-        choice = [0]*n
         suffixSum = [0]*n
         for i in range(n-1, -1, -1):
             suffixSum[i] = stoneValue[i]+(suffixSum[i+1] if i+1<n else 0)
         
         for startIndex in range(n-1, -1, -1):
-            choose1 = (suffixSum[startIndex]-(dp[startIndex+1] if startIndex+1<n else 0), 1)
-            choose2 = (-inf if startIndex>n-2 else suffixSum[startIndex]-(dp[startIndex+2] if startIndex+2<n else 0), 2)
-            choose3 = (-inf if startIndex>n-3 else suffixSum[startIndex]-(dp[startIndex+3] if startIndex+3<n else 0), 3)
-            bestChoice = max([choose1, choose2, choose3], key=lambda x:x[0])
-            dp[startIndex] = bestChoice[0]
-            choice[startIndex] = bestChoice[1]
+            choose1 = suffixSum[startIndex]-(dp[startIndex+1] if startIndex+1<n else 0)
+            choose2 = -inf if startIndex>n-2 else suffixSum[startIndex]-(dp[startIndex+2] if startIndex+2<n else 0)
+            choose3 = -inf if startIndex>n-3 else suffixSum[startIndex]-(dp[startIndex+3] if startIndex+3<n else 0)
+            bestChoice = max([choose1, choose2, choose3])
+            dp[startIndex] = bestChoice
         alice = dp[0]
-        bob = dp[choice[0]] if choice[0]<n else 0 
+        bob = suffixSum[0]-alice
         return "Tie" if alice==bob else ("Alice" if alice>bob else "Bob")
             
         
