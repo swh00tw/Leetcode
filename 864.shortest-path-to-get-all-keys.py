@@ -7,6 +7,8 @@
 # @lc code=start
 # https://leetcode.com/problems/shortest-path-to-get-all-keys/solutions/3694816/bfs-video-solution/
 from collections import deque, defaultdict
+
+
 class Solution:
     def shortestPathAllKeys(self, grid: List[str]) -> int:
         directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
@@ -15,15 +17,15 @@ class Solution:
         for i in range(m):
             for j in range(n):
                 c = grid[i][j]
-                if c == '@':
+                if c == "@":
                     x, y = i, j
-                if 'a' <= c <= 'f':
+                if "a" <= c <= "f":
                     totalKeys += 1
 
         # the first item's binary string represent current keys
         # ex: 111111 represent "abcdef" keys
         # ex: 000000 represent initial state
-        start = (0, x, y) 
+        start = (0, x, y)
         queue = deque([start])
         visited = defaultdict(bool)
         visited[start] = True
@@ -33,7 +35,7 @@ class Solution:
             size = len(queue)
             for _ in range(size):
                 keys, i, j = queue.popleft()
-                if keys == (1 << totalKeys) - 1: # if all keys collected
+                if keys == (1 << totalKeys) - 1:  # if all keys collected
                     return step
 
                 for dx, dy in directions:
@@ -41,11 +43,15 @@ class Solution:
                     newKeys = keys
                     if 0 <= ni < m and 0 <= nj < n:
                         c = grid[ni][nj]
-                        if c == '#':
+                        if c == "#":
                             continue
-                        if 'a' <= c <= 'f':
-                            newKeys |= 1 << (ord(c) - ord('a')) # shift 1 and OR newKeys
-                        if 'A' <= c <= 'F' and not (keys >> (ord(c) - ord('A')) & 1): # if doesn't possess the key
+                        if "a" <= c <= "f":
+                            newKeys |= 1 << (
+                                ord(c) - ord("a")
+                            )  # shift 1 and OR newKeys
+                        if "A" <= c <= "F" and not (
+                            keys >> (ord(c) - ord("A")) & 1
+                        ):  # if doesn't possess the key
                             continue
                         if not visited[(newKeys, ni, nj)]:
                             visited[(newKeys, ni, nj)] = True
@@ -53,6 +59,5 @@ class Solution:
             step += 1
         return -1
 
-        
-# @lc code=end
 
+# @lc code=end
