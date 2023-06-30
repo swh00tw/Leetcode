@@ -8,11 +8,11 @@
 # @lc code=start
 class Solution:
     def latestDayToCross(self, row: int, col: int, cells: List[List[int]]) -> int:
-        l, r = 0, len(cells) - 1
         # binary search
         # find the first day that, including that day, the grid is not crossable
         # or
         # find the last day (rightmost day) that, including that day, the grid is crossable
+        l, r = 0, len(cells) - 1
         while l <= r:
             mid = (l + r) // 2
             if self.canCross(cells[: mid + 1], row, col):
