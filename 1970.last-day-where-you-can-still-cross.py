@@ -19,7 +19,9 @@ class Solution:
                 l = mid + 1
             else:
                 r = mid - 1
-        return l
+        # r is the last index that including it, the grid is still crossable
+        # the index "r" plus one is the last day the grid is crossable
+        return r + 1
 
     def canCross(self, cells, row, col):
         grid = [[0] * col for _ in range(row)]
