@@ -9,27 +9,22 @@
 class Solution:
     def longestSubarray(self, nums: List[int]) -> int:
         # we got one chance to skip one zero
-        # if we encounter zero and have no chance left
-        # restore the chance to skip from the last time we used it
-        # need to recalculate ones from the previous zero
-        # so move start pointer and minus the unvalid one's
+        # keep track of prev seen zero's index and the start counting index
+        # if we encounter zero except for the first zero, update startCountingIdx and prevZeroIdx
+        # if every step, count the length of the window between current idx and startCountingIdx
         best = 0
-        count = 0
         chance = 1
-        startIdx = 0
+        prevZeroIdx = 0
+        startCountingIdx = 0
         for i, n in enumerate(nums):
-            if n == 1:
-                count += 1
-                best = max(best, count)
-            elif n == 0 and chance == 1:
+            if n == 0 and chance == 1:
                 chance -= 1
-                continue
-            else:
-                while nums[startIdx] != 0:
-                    startIdx += 1
-                    count -= 1
-                startIdx += 1  # move to the right of the zero
-        return best - 1 if chance == 1 else best
+                prevZeroIdx = i
+            elif n == 0 and chance == 0:
+                startCountingIdx = prevZeroIdx + 1
+                prevZeroIdx = i
+            best = max(best, i - startCountingIdx)
+        return best
 
 
 # @lc code=end
