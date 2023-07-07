@@ -6,9 +6,6 @@
 
 
 # @lc code=start
-from collections import deque
-
-
 class Solution:
     def maxConsecutiveAnswers(self, answerKey: str, k: int) -> int:
         # T --> 1, F --> 0, find the longest subarray of 1s
