@@ -27,28 +27,23 @@ class Solution:
         return res
 
     def findLongest(self, nums, chances):
-        # if encounter 1, increment count
-        # if encounter 0 but zeroIdxQueue's length < chances, increment count and push a index
-        # else, pop a zeroIdx and push a new idx
+        # use two pointers to represent sliding window to count 1
+        # l pointer always point to the idx start counting
+        n = len(nums)
+        l, r = 0, -1
+        zeroInWindow = 0
         best = 0
-        startIdx = 0  # keep track of start counting idx
-        zeroIdxQueue = deque([])  # max length = chances
-        for i, n in enumerate(nums):
-            if n == 0 and len(zeroIdxQueue) < chances:
-                zeroIdxQueue.append(i)
-            elif n == 0 and len(zeroIdxQueue) == chances:
-                idx = zeroIdxQueue.popleft()
-                zeroIdxQueue.append(i)
-                # update startIdx
-                idx = idx + 1
-                while True:
-                    if nums[idx] == 1:
-                        break
-                    if idx == zeroIdxQueue[0]:
-                        break
-                    idx += 1
-                startIdx = idx
-            best = max(best, i + 1 - startIdx)
+        while r < n - 1:
+            r += 1
+            if nums[r] == 0 and zeroInWindow < chances:
+                zeroInWindow += 1
+            elif nums[r] == 0 and zeroInWindow == chances:
+                # update l to first zero's right
+                while nums[l] != 0:
+                    l += 1
+                l += 1
+            best = max(best, r + 1 - l)
+
         return best
 
 
