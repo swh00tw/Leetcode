@@ -6,7 +6,6 @@
 
 
 # @lc code=start
-# kadane algorithm
 class Solution:
     def largestVariance(self, s: str) -> int:
         if len(s) == 1 or len(s) == 2:
@@ -14,7 +13,7 @@ class Solution:
 
         # there are 26*25 charactars pair (c1, c2)
         # use kadane algorithm to find max(c1's occurence - c2's occurence)
-        # ignore charactars in substring that is neithor c1 nor c2
+        # ignore charactars in substring that is neither c1 nor c2
         # do it in reverse order again to make sure we inspect all possible substring
         best = 0
         pairs = [(c1, c2) for c1 in set(s) for c2 in set(s) if c1 != c2]
