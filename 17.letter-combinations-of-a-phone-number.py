@@ -4,6 +4,7 @@
 # [17] Letter Combinations of a Phone Number
 #
 
+
 # @lc code=start
 class Solution:
     def __init__(self):
@@ -15,23 +16,22 @@ class Solution:
             6: "mno",
             7: "pqrs",
             8: "tuv",
-            9: "wxyz"
+            9: "wxyz",
         }
-    def letterCombinations(self, digits: str) -> List[str]:
-        # return all possible result string from digits
-        if len(digits)==0:
-            return []
-        firstDigit = digits[0]
-        substrings = self.letterCombinations(digits[1:])
-        if len(substrings)==0:
-            return list(self.digitCharMap[int(firstDigit)])
-        
-        res = []
-        for startChar in self.digitCharMap[int(firstDigit)]:
-            res += [startChar+substring for substring in substrings]
-        return res
-              
-    
-        
-# @lc code=end
 
+    def letterCombinations(self, digits: str) -> List[str]:
+        if len(digits) == 0:
+            return []
+        firstDigit = int(digits[0])
+        subanswers = self.letterCombinations(digits[1:])
+        if len(subanswers) > 0:
+            return [
+                firstChar + subans
+                for firstChar in self.digitCharMap[firstDigit]
+                for subans in subanswers
+            ]
+        else:
+            return [char for char in self.digitCharMap[firstDigit]]
+
+
+# @lc code=end
