@@ -4,22 +4,20 @@
 # [704] Binary Search
 #
 
+
 # @lc code=start
-from math import ceil
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
-        return self.binarySearch(0, len(nums)-1, nums, target)
+        l, r = 0, len(nums) - 1
+        while l <= r:
+            mid = (l + r) // 2
+            if nums[mid] == target:
+                return mid
+            if nums[mid] > target:
+                r = mid - 1
+            else:
+                l = mid + 1
+        return -1
 
-    def binarySearch(self, startIdx, endIdx, arr, target):
-        if startIdx>endIdx:
-            return -1
-        middleIdx = ceil((startIdx + endIdx)/2)
-        if target == arr[middleIdx]:
-            return middleIdx
-        elif target < arr[middleIdx]:
-            return self.binarySearch(startIdx, middleIdx-1, arr, target)
-        else:
-            return self.binarySearch(middleIdx+1, endIdx, arr, target)
-        
+
 # @lc code=end
-
