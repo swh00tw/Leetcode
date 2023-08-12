@@ -11,10 +11,10 @@ class Solution:
         # dp[i][j] means number of unique paths to (i, j)
         # if (i, j) is an obstacle, dp[i][j] = 0
         # dp[i][j] = dp[i][j-1] + dp[i-1][j]
-        # base case: if i==0 or j==0, dp[i][j]=1
         n = len(obstacleGrid)
         m = len(obstacleGrid[0])
         dp = [[0] * m for _ in range(n)]
+        # base case
         for i in range(n):
             if obstacleGrid[i][0] != 0:
                 break
@@ -23,6 +23,7 @@ class Solution:
             if obstacleGrid[0][j] != 0:
                 break
             dp[0][j] = 1
+        # filling table
         for i in range(1, n):
             for j in range(1, m):
                 if obstacleGrid[i][j] == 1:
