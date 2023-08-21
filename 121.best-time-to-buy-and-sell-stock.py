@@ -4,22 +4,21 @@
 # [121] Best Time to Buy and Sell Stock
 #
 
+
 # @lc code=start
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        if len(prices)==1:
+        if len(prices) == 1:
             return 0
-        lowest = prices[0]
-        maximum = 0
+        ans = 0
+        minPrice = prices[0]
+        for p in prices[1:]:
+            profit = p - minPrice
+            if profit > ans:
+                ans = profit
+            if p < minPrice:
+                minPrice = p
+        return ans
 
-        for i, price in enumerate(prices[1:]):
-            # update maximum
-            if price - lowest > maximum:
-                maximum = price - lowest
-            # update lowest
-            if price < lowest:
-                lowest = price
-        
-        return maximum
+
 # @lc code=end
-
