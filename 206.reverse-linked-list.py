@@ -11,26 +11,27 @@
 #         self.val = val
 #         self.next = next
 
+
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        if head == None or head.next == None:
-            return head
-        nodes = []
-        curr = head
-        while curr:
-            new = ListNode(curr.val)
-            nodes.append(new)
-            curr = curr.next
-        revNodes = list(reversed(nodes))
+        if not head:
+            return None
 
-        headOfRevNodes = revNodes[0]
-        for i in range(len(revNodes)-1):
-            current = revNodes[i]
-            current.next = revNodes[i+1]
-        return headOfRevNodes
-        
-        
-            
-        
+        self.res = None
+
+        # backtracking
+        def getRevLinkedList(originalNode):
+            node = ListNode(originalNode.val)
+
+            if originalNode.next is None:
+                self.res = node
+                return node
+            tailNode = getRevLinkedList(originalNode.next)
+            tailNode.next = node
+            return tailNode.next
+
+        getRevLinkedList(head)
+        return self.res
+
+
 # @lc code=end
-
