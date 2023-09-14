@@ -14,9 +14,8 @@ class Solution:
         self, startTime: List[int], endTime: List[int], profit: List[int]
     ) -> int:
         # top down dp
-        # sort a job by ending time
-        # for a new job if it has overlap, not choose it
-        # if if can be included, either choose it or skip
+        # sort a job by start time
+        # for a new job either include it or skip it
         jobs = []
         for i in range(len(startTime)):
             jobs.append((startTime[i], endTime[i], profit[i]))
