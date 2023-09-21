@@ -9,35 +9,45 @@
 class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
         # sol: https://www.youtube.com/watch?v=q6IEA26hvXc
-        A, B = nums1, nums2
-        total = len(nums1) + len(nums2)
-        half = total // 2
-        if len(B) < len(A):
-            A, B = B, A
 
-        # A is smaller array
-        # B is larger array
-        l, r = 0, len(A) - 1
-        while True:
-            i = (l + r) // 2  # A
-            j = half - i - 2  # B
+        # find the right partition on nums1 and nums2
+        # use binary search on nums1
+        # verify if it's valid partition
+        # handle odd case and even case
 
-            Aleft = A[i] if i >= 0 else float("-inf")
-            Aright = A[i + 1] if (i + 1) < len(A) else float("inf")
-            Bleft = B[j] if j >= 0 else float("-inf")
-            Bright = B[j + 1] if (j + 1) < len(B) else float("inf")
+        # KEY: assume nums1 is always smaller, nums2 is bigger
+        # though not affect the correctness,
+        # by doing so, we won't have "list-out-of-range" issue
+        # we don't have to handle these cases
+        if len(nums2) < len(nums1):
+            nums1, nums2 = nums2, nums1
 
-            # partition is correct
-            if Aleft <= Bright and Bleft <= Aright:
-                # odd
-                if total % 2:
-                    return min(Aright, Bright)
-                # even
-                return (max(Aleft, Bleft) + min(Aright, Bright)) / 2
-            elif Aleft > Bright:
-                r = i - 1
+        n = len(nums1)
+        m = len(nums2)
+        total = n + m
+        targetParitionLength = total // 2
+
+        l, r = 0, n
+        while l <= r:
+            break1 = (l + r) // 2
+            break2 = targetParitionLength - break1
+
+            # verify partition
+            right1 = nums1[break1] if break1 < n else float("inf")
+            right2 = nums2[break2] if break2 < m else float("inf")
+            left1 = nums1[break1 - 1] if (break1 - 1 >= 0) else float("-inf")
+            left2 = nums2[break2 - 1] if (break2 - 1 >= 0) else float("-inf")
+            if left1 <= right2 and left2 <= right1:
+                # valid
+                if total % 2 == 0:
+                    return (max(left1, left2) + min(right1, right2)) / 2
+                else:
+                    return min(right1, right2)
             else:
-                l = i + 1
+                if left2 > right1:
+                    l = break1 + 1
+                else:
+                    r = break1 - 1
 
 
 # @lc code=end
