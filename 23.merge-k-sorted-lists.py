@@ -37,9 +37,10 @@ class Solution:
         # use k pointers point to current node (initially point to head)
         # they are candidates to be next node of resulting linked list
         # from k candidates, pick the smallest node to be next node
-        # O(k) to do this, there are at most O(kn) time to do this
-        # by maintain a minHeap, extract minimum can be done in O(lgn)
-        # push a new candidate into heap is also O(lgn)
+        # O(k) to do this, there are at most O(kn) time to do this, n is the number of nodes in the given lists
+        # by maintain a minHeap, extract minimum can be done in O(lgk)
+        # push a new candidate into heap is also O(lgk)
+        # Overallm the time complexity is O(nlgk)
         new_lists = []
         for head in lists:
             if head is not None:
@@ -48,9 +49,8 @@ class Solution:
         if len(lists) == 0:
             return None
 
-        n = len(lists)
         candidates = []  # store HeapNode
-        for i, head in enumerate(lists):
+        for head in lists:
             candidates.append(HeapNode(head.val, head.next))
         heapq.heapify(candidates)
 
