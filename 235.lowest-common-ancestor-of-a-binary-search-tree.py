@@ -12,53 +12,32 @@
 #         self.left = None
 #         self.right = None
 
-class Solution:
-    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        # keep travesing nodes
-        # when we traverse a node, if both p and q in right(or left) subtree, traverse right(or left)
-        # if this happened: p.val <= node.val <= q.val (or p, q switch position), the node is the lca
-        small = min(q.val, p.val)
-        large = max(p.val, q.val)
-        return self.traverse(root, small, large)
 
-    def traverse(self, node, small, large):
+class Solution:
+    def lowestCommonAncestor(
+        self, root: "TreeNode", p: "TreeNode", q: "TreeNode"
+    ) -> "TreeNode":
+        # the return node's value must <= q.val and >= p.val
+        lower = min(p, q, key=lambda x: x.val)
+        higher = max(p, q, key=lambda x: x.val)
+        return self.findLCA(root, lower, higher)
+
+    def findLCA(self, node, lower, higher):
         if node:
-            if small <= node.val <= large:
+            # base case #1, node's val is in between lower.val and higher.val
+            # lower.val < node.val < higher.val
+            # base case #2, node == lower
+            # base case #3, node == higher
+            # The union of these cases, lower.val <= node.val <= higher.val
+            if lower.val <= node.val <= higher.val:
                 return node
-            elif node.val < small:
-                return self.traverse(node.right, small, large)
+
+            # if node.val > higher, search left subtree
+            # else search right subtree
+            if node.val > higher.val:
+                return self.findLCA(node.left, lower, higher)
             else:
-                return self.traverse(node.left, small, large)
-        
-# my first sol(the time complexity is optimal, but a little bit redundant, not elegant)
-# def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-#         path1 = self.findNode(root, 0, p.val)
-#         path2 = self.findNode(root, 0, q.val)
-#         idxSet = set()
-#         indexToNode = {}
-#         lca = (root, 0)
-#         for n, i in path1:
-#             idxSet.add(i)
-#             indexToNode[i]=n
-#         for n, i in path2:
-#             if i in idxSet:
-#                 if i>lca[1]:
-#                     lca = (n, i)
-#         return lca[0]
-#     def findNode(self, node, index, target): 
-#         # return (node, index)[]
-#         # node index is n
-#         # left: 2n+1
-#         # right: 2n+2
-#         # root: 0
-#         if not node:
-#             return []
-#         if node.val == target:
-#             return [(node, index)]
-#         elif target < node.val:
-#             return [(node, index)]+self.findNode(node.left, 2*index+1, target)
-#         else:
-#             return [(node, index)]+self.findNode(node.right, 2*index+2, target)
+                return self.findLCA(node.right, lower, higher)
+
 
 # @lc code=end
-
