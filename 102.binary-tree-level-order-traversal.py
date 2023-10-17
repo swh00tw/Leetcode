@@ -4,6 +4,7 @@
 # [102] Binary Tree Level Order Traversal
 #
 
+
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -12,26 +13,22 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def __init__(self):
-        self.d = {} # map level to vals
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
-        self.traverse(root, 0)
-        res = []
-        for v in self.d.values():
-            res.append(v)
-        return res
+        if not root:
+            return []
+        return self.visitNodes([root])
 
-    def traverse(self, node, level):
-        if node is None:
-            return
-        
-        if self.d.get(level):
-            self.d[level].append(node.val)
-        else:
-            self.d[level] = [node.val]
-        
-        self.traverse(node.left, level+1)
-        self.traverse(node.right, level+1)
-        
+    def visitNodes(self, nodes) -> List[List[int]]:
+        nextLevel = []
+        for n in nodes:
+            if n.left:
+                nextLevel.append(n.left)
+            if n.right:
+                nextLevel.append(n.right)
+        # base case
+        if len(nextLevel) == 0:
+            return [[n.val for n in nodes]]
+        return [[n.val for n in nodes]] + self.visitNodes(nextLevel)
+
+
 # @lc code=end
-
