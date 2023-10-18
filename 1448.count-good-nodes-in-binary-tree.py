@@ -4,6 +4,7 @@
 # [1448] Count Good Nodes in Binary Tree
 #
 
+
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -12,21 +13,17 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def __init__(self):
-        self.count = 0
-        
     def goodNodes(self, root: TreeNode) -> int:
-        self.traverse(root, -inf)
-        return self.count
+        self.ans = 0
+        self.visit(root, float("-inf"))
+        return self.ans
 
-    def traverse(self, node, currentLargest):
+    def visit(self, node, currMax):
         if node:
-            # is it good?
-            nextLargest = currentLargest
-            if node.val >= currentLargest:
-                self.count += 1
-                nextLargest = node.val
-            self.traverse(node.left, nextLargest)
-            self.traverse(node.right, nextLargest)
-# @lc code=end
+            if node.val >= currMax:
+                self.ans += 1
+            self.visit(node.left, max(node.val, currMax))
+            self.visit(node.right, max(node.val, currMax))
 
+
+# @lc code=end
