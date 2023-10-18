@@ -4,6 +4,7 @@
 # [199] Binary Tree Right Side View
 #
 
+
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -13,20 +14,21 @@
 #         self.right = right
 class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
-        if root is None:
+        if not root:
             return []
-        q = [(root, 0)] # (node, depth)
-        maxDepth = 0
-        rsv = {}
-        while q:
-            node, depth = q.pop(0)
-            maxDepth = max(maxDepth, depth)
-            rsv[depth] = node.val
-            if node.left:
-                q.append((node.left, depth+1))
-            if node.right:
-                q.append((node.right, depth+1))
-        return [rsv[i] for i in range(maxDepth+1)]
+        return self.visitNextLevel([root])
+
+    def visitNextLevel(self, nodes):
+        nextLevel = []
+        # base case, no next level
+        for n in nodes:
+            if n.left:
+                nextLevel.append(n.left)
+            if n.right:
+                nextLevel.append(n.right)
+        if not nextLevel:
+            return [nodes[-1].val]
+        return [nodes[-1].val] + self.visitNextLevel(nextLevel)
+
 
 # @lc code=end
-
