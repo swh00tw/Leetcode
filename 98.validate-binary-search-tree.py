@@ -4,6 +4,7 @@
 # [98] Validate Binary Search Tree
 #
 
+
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -12,38 +13,22 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def __init__(self):
-        self.nodes = []
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        self.inorder(root)
-        n = len(self.nodes)
-        i = 0
-        while 0<=i<=n-2:
-            if self.nodes[i]>=self.nodes[i+1]:
-                return False
-            i+=1
-        return True        
+        # recursive function
+        # inputs:
+        # 1. node: Optional[TreeNode]
+        # 2. upperBound: int
+        # 3. lowerBound: int
+        return self.validate(root, float("-inf"), float("inf"))
 
-    def inorder(self, node):
-        if node:
-            if node.left:
-                self.inorder(node.left)
-            self.nodes.append(node.val)
-            if node.right:
-                self.inorder(node.right)
+    def validate(self, node, low, high):
+        if not node:
+            return True
+        if node.val >= high or node.val <= low:
+            return False
+        return self.validate(node.left, low, node.val) and self.validate(
+            node.right, node.val, high
+        )
 
-## another solution
-# class Solution:
-#     def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        
-#         def helper(node, low, high):
-#             if not node:
-#                 return True
-#             if not (low < node.val < high):
-#                 return False
-#             return helper(node.left, low, node.val) and helper(node.right, node.val, high)
-        
-#         return helper(root, -inf, inf)
 
 # @lc code=end
-
