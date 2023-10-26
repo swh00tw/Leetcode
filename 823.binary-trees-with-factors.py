@@ -21,6 +21,7 @@ class Solution:
 
         cache = {}
         nums = set(arr)
+        arr.sort()
 
         def getNumOfTree(n: int):
             # in cache
@@ -29,6 +30,8 @@ class Solution:
 
             pairsOfFactor = []
             for num in arr:
+                if num > n**0.5:
+                    break
                 if n % num == 0 and n // num in nums:
                     pairsOfFactor.append([num, n // num])
 
@@ -37,8 +40,12 @@ class Solution:
                 return 1
             ans = 1
             for a, b in pairsOfFactor:
-                ans += getNumOfTree(a) * getNumOfTree(b)
-                ans = ans % (10**9 + 7)
+                if a == b:
+                    ans += getNumOfTree(a) * getNumOfTree(b)
+                    ans = ans % (10**9 + 7)
+                else:
+                    ans += getNumOfTree(a) * getNumOfTree(b) * 2
+                    ans = ans % (10**9 + 7)
             # save to cache
             cache[n] = ans
             return ans
