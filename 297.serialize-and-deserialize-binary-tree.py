@@ -14,37 +14,22 @@
 
 
 class Codec:
+    def __init__(self):
+        self.nil = "x"
+
     def serialize(self, root):
         """Encodes a tree to a single string.
 
         :type root: TreeNode
         :rtype: str
         """
+        # use preorder traversal
         if root is None:
-            return "EMPTY"
-        # we can store the inorder and preorder of the binary tree in the msg
-        self.io = []
-        self.po = []
-        self.preorder(root, 0)
-        self.inorder(root, 0)
-        res = f"{self.po}|{self.io}"
-        self.io = []
-        self.po = []
+            return self.nil
+        res = ",".join(
+            [f"{root.val}", self.serialize(root.left), self.serialize(root.right)]
+        )
         return res
-
-    def inorder(self, node, idx):
-        if node:
-            self.inorder(node.left, 2 * idx + 1)
-            self.io.append(node.val)
-            self.io.append(idx)
-            self.inorder(node.right, 2 * idx + 2)
-
-    def preorder(self, node, idx):
-        if node:
-            self.po.append(node.val)
-            self.po.append(idx)
-            self.preorder(node.left, 2 * idx + 1)
-            self.preorder(node.right, 2 * idx + 2)
 
     def deserialize(self, data):
         """Decodes your encoded data to tree.
@@ -52,28 +37,16 @@ class Codec:
         :type data: str
         :rtype: TreeNode
         """
-        if data == "EMPTY":
-            return None
-        poStr, ioStr = data.split("|")
-        preorderPairs = poStr[1:-1].split(",")
-        inorderPairs = ioStr[1:-1].split(",")
-        preorder = [
-            (int(preorderPairs[i]), int(preorderPairs[i + 1]))
-            for i in range(0, len(preorderPairs), 2)
-        ]
-        inorder = [
-            (int(inorderPairs[i]), int(inorderPairs[i + 1]))
-            for i in range(0, len(inorderPairs), 2)
-        ]
-        return self.buildTree(preorder, inorder)
+        return self.buildTree(data.split(","))
 
-    def buildTree(self, preorder, inorder):
-        if inorder:
-            ind = inorder.index(preorder.pop(0))
-            root = TreeNode(inorder[ind][0])
-            root.left = self.buildTree(preorder, inorder[0:ind])
-            root.right = self.buildTree(preorder, inorder[ind + 1 :])
-            return root
+    def buildTree(self, preorder: List[str]) -> Optional[TreeNode]:
+        val = preorder.pop(0)
+        if val == self.nil:
+            return None
+        rootNode = TreeNode(int(val))
+        rootNode.left = self.buildTree(preorder)
+        rootNode.right = self.buildTree(preorder)
+        return rootNode
 
 
 # Your Codec object will be instantiated and called as such:
