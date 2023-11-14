@@ -5,42 +5,47 @@
 #
 
 # @lc code=start
-class Trie:
+from collections import deque
 
+
+class Trie:
     def __init__(self):
         self.tree = {}
+        self.end = "#"  # use this character to indicate the end of a word
 
     def insert(self, word: str) -> None:
-        chars = list(word)
         currDict = self.tree
-        while chars:
-            char = chars.pop(0)
-            if not currDict.get(char):
-                currDict[char] = {}
-            currDict = currDict[char]
-        currDict["/"] = True
+        w = deque(list(word))
+        while w:
+            letter = w.popleft()
+            if letter not in currDict:
+                currDict[letter] = {}
+            currDict = currDict[letter]
+        currDict[self.end] = True
 
     def search(self, word: str) -> bool:
-        chars = list(word)
+        # recursive traverse through the tree along the path built by letters
+        # if in the end, we reach "#", return True else False
+        w = deque(list(word))
         currDict = self.tree
-        while chars:
-            char = chars.pop(0)
-            if char not in currDict:
+        while w:
+            letter = w.popleft()
+            if letter not in currDict:
                 return False
-            currDict = currDict[char]
-        return "/" in currDict
+            currDict = currDict[letter]
+        return self.end in currDict
 
     def startsWith(self, prefix: str) -> bool:
-        chars = list(prefix)
+        # recursive traverse through the tree along the path built by letters
+        # if in the end, we reach "#", return True else False
+        w = deque(list(prefix))
         currDict = self.tree
-        while chars:
-            char = chars.pop(0)
-            if char not in currDict:
+        while w:
+            letter = w.popleft()
+            if letter not in currDict:
                 return False
-            currDict = currDict[char]
+            currDict = currDict[letter]
         return True
-
-        
 
 
 # Your Trie object will be instantiated and called as such:
@@ -49,4 +54,3 @@ class Trie:
 # param_2 = obj.search(word)
 # param_3 = obj.startsWith(prefix)
 # @lc code=end
-
