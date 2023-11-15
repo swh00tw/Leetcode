@@ -14,11 +14,12 @@ class Solution:
         # map the first number to 1
         # the second number to 2
         # ...
+
+        # edge case:
         # arr: [2, 2, 2, 7, 8, 9]
         # mapped: [1, 2, 3, 4, 5, 6]
-
         # during the convertion, mind the upper bound
-        # if the mapped[i] is larger than arr[i], use previous old number mapped[i-1]
+        # if the mapped[i] is larger than arr[i], use previous arr[i]
         arr = list(sorted(arr))
         curr = 1
         for i in range(len(arr)):
