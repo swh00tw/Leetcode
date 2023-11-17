@@ -12,10 +12,13 @@ class Solution:
             return [nums]
         ans = []
         for i, n in enumerate(nums):
-            tmp = nums[:]
-            del tmp[i]
-            for subans in self.permute(tmp):
-                ans.append(subans + [n])
+            # remove
+            nums.pop(i)
+            # compute
+            for sub_ans in self.permute(nums):
+                ans.append([n] + sub_ans)
+            # recover
+            nums.insert(i, n)
         return ans
 
 
