@@ -8,17 +8,17 @@
 # @lc code=start
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        if len(prices) == 1:
+        n = len(prices)
+        if n <= 1:
             return 0
-        ans = 0
-        minPrice = prices[0]
-        for p in prices[1:]:
-            profit = p - minPrice
-            if profit > ans:
-                ans = profit
-            if p < minPrice:
-                minPrice = p
-        return ans
+        best = 0
+        lowest = float("inf")
+        for p in prices:
+            if p >= lowest:
+                best = max(best, p - lowest)
+            else:
+                lowest = p
+        return best
 
 
 # @lc code=end
