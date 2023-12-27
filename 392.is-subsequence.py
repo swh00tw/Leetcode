@@ -5,16 +5,19 @@
 #
 
 # @lc code=start
+from collections import deque
+
+
 class Solution:
     def isSubsequence(self, s: str, t: str) -> bool:
-        criterionQueue = list(s)
-        for letter in t:
-            if len(criterionQueue)==0:
-                break
-            requiredLetter = criterionQueue[0]
-            if letter == requiredLetter:
-                del criterionQueue[0]
-        return len(criterionQueue)==0 
-        
-# @lc code=end
+        if len(s) == 0:
+            return True
+        queue = deque(list(s))
+        for c in t:
+            if c == queue[0]:
+                queue.popleft()
+                if len(queue) == 0:
+                    return True
 
+
+# @lc code=end
