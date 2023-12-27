@@ -8,23 +8,16 @@
 # @lc code=start
 class Solution:
     def maxArea(self, height: List[int]) -> int:
-        # two pointers, each time, move lower one
+        # two pointers
         l, r = 0, len(height) - 1
-        ans = -inf
+        best = float("-inf")
         while l < r:
-            ans = max(ans, (r - l) * min(height[l], height[r]))
-            if height[l] < height[r]:
-                l += 1
-            elif height[r] < height[l]:
+            best = max(best, (r - l) * min(height[r], height[l]))
+            if height[r] <= height[l]:
                 r -= 1
             else:
-                nl = height[l + 1]
-                nr = height[r - 1]
-                if nl > nr:
-                    l += 1
-                else:
-                    r -= 1
-        return ans
+                l += 1
+        return best
 
 
 # @lc code=end
