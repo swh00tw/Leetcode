@@ -4,24 +4,24 @@
 # [228] Summary Ranges
 #
 
+
 # @lc code=start
 class Solution:
     def summaryRanges(self, nums: List[int]) -> List[str]:
-        if len(nums)==0:
+        if len(nums) == 0:
             return []
-        if len(nums)==1:
-            return [str(nums[0])]
-        res = []
-        a, b = nums[0], nums[0]
-        for num in nums[1:]:
-            if num == b + 1:
-                b = num
+        if len(nums) == 1:
+            return [f"{nums[0]}"]
+        intervals = []  # [a, b]
+        curr = [nums[0], nums[0]]
+        for n in nums[1:]:
+            if n == curr[1] + 1:
+                curr = [curr[0], n]
             else:
-                res.append(f"{a}->{b}" if a!=b else str(a))
-                a, b = num, num
-        res.append(f"{a}->{b}" if a!=b else str(a))
-        return res
-        
-        
-# @lc code=end
+                intervals.append(curr)
+                curr = [n, n]
+        intervals.append(curr)
+        return [f"{a}->{b}" if a != b else f"{a}" for a, b in intervals]
 
+
+# @lc code=end

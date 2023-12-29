@@ -8,22 +8,26 @@
 # @lc code=start
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        # sliding window
-        startIdx = 0
-        ans = 0
+        # maintain a set within sliding window
         chars = set()
-        for endIdx, c in enumerate(s):
+        startIdx = 0
+        best = 0
+        for endIdx in range(len(s)):
             newChar = s[endIdx]
             if newChar in chars:
-                # move startIdx until the conflict resolve
+                # shrink startIdx
+                # until popping out the same charactar
                 while s[startIdx] != newChar:
-                    chars.remove(s[startIdx])
+                    chars.discard(s[startIdx])
                     startIdx += 1
-                chars.remove(s[startIdx])
+                chars.discard(s[startIdx])
                 startIdx += 1
+
+            # update best
+            best = max(best, endIdx + 1 - startIdx)
+            # update chars
             chars.add(newChar)
-            ans = max(ans, endIdx + 1 - startIdx)
-        return ans
+        return best
 
 
 # @lc code=end
