@@ -10,15 +10,14 @@ class Solution:
     def findMinArrowShots(self, points: List[List[int]]) -> int:
         # interval schedling problem to find non-overlapping intervals
         # for overlapping intervals, we can ignore it since we can clear those balloons by shooting other balloons
-        points = list(sorted(points, key=lambda x: x[1]))
-        count = 0
-        currEndTime = points[0][1]
-        for start, end in points[1:]:
-            if start > currEndTime:
-                currEndTime = end
+        sorted_points = sorted(points, key=lambda x: x[1])
+        intervals = [sorted_points[0]]
+        for p in sorted_points[1:]:
+            if p[0] <= intervals[-1][1]:
+                continue
             else:
-                count += 1
-        return len(points) - count
+                intervals.append(p)
+        return len(intervals)
 
 
 # @lc code=end
