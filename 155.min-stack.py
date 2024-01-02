@@ -4,30 +4,31 @@
 # [155] Min Stack
 #
 
+
 # @lc code=start
+class Node:
+    def __init__(self, val, currMin):
+        self.val = val
+        self.min = currMin
+
+
 class MinStack:
     def __init__(self):
-        self.s = [] # stack
-        self.min = float("inf")
+        self.stack = []
 
     def push(self, val: int) -> None:
-        self.s.append(val)
-        self.min = min(self.min, val)
+        currMin = self.stack[-1].min if len(self.stack) > 0 else val
+        node = Node(val, min(currMin, val))
+        self.stack.append(node)
 
     def pop(self) -> None:
-        top = self.top()
-        self.s.pop(-1)        
-        if top == self.min:
-            self.min = min(self.s) if self.s else float("inf")
+        self.stack.pop()
 
     def top(self) -> int:
-        return self.s[-1]
+        return self.stack[-1].val
 
     def getMin(self) -> int:
-        return self.min
-# True O(1) answer here!
-# ref: https://leetcode.com/problems/min-stack/solutions/3297934/python-one-stack-without-tuples-and-linklist/?languageTags=python3
-
+        return self.stack[-1].min
 
 
 # Your MinStack object will be instantiated and called as such:
@@ -37,4 +38,3 @@ class MinStack:
 # param_3 = obj.top()
 # param_4 = obj.getMin()
 # @lc code=end
-
