@@ -16,19 +16,22 @@ class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
         if not root:
             return []
-        return self.visitNextLevel([root])
-
-    def visitNextLevel(self, nodes):
-        nextLevel = []
-        # base case, no next level
-        for n in nodes:
-            if n.left:
-                nextLevel.append(n.left)
-            if n.right:
-                nextLevel.append(n.right)
-        if not nextLevel:
-            return [nodes[-1].val]
-        return [nodes[-1].val] + self.visitNextLevel(nextLevel)
+        # BFS
+        queue = []  # nodes[]
+        queue.append([root])
+        ans = []
+        while queue:
+            nextBatch = []
+            nodes = queue.pop(0)
+            for n in nodes:
+                if n.left:
+                    nextBatch.append(n.left)
+                if n.right:
+                    nextBatch.append(n.right)
+            ans.append(nodes[-1].val)
+            if nextBatch:
+                queue.append(nextBatch)
+        return ans
 
 
 # @lc code=end
