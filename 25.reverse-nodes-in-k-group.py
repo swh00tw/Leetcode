@@ -13,43 +13,39 @@
 #         self.next = next
 class Solution:
     def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
-        # Linear traverse
-        # 1. select a group. (if lower than k nodes, early return)
-        # 2. modify the pointers
-        if k == 1:
-            return head
-        prev = None
-        curr = head
-        res = head
-        while self.countNodes(curr) >= k:
-            tail, head, nextCurr = self.reverseNodes(curr, 1, k)
-            tail.next = nextCurr
-            # print("tail: ", tail, "next: ", nextCurr)
-            if prev is not None:
-                prev.next = head
-            else:
-                res = head
-            # update prev and update curr
-            prev = curr
-            curr = nextCurr
+        ans = ListNode(0)
+        ans.next = head
+        # stand on curr node
+        # if there are k nodes after this node (need count)
+        # reverse it (return head, nextHead), and relink the pointers
+        curr = ans
+        while self.countK(curr, k):
+            new_head, new_tail, next_head = self.reverseKNodes(curr.next, k)
+            curr.next = new_head
+            new_tail.next = next_head
+            curr = new_tail
+        return ans.next
 
-        return res
-
-    def countNodes(self, head):
-        curr = head
-        count = 0
+    def countK(self, node, k) -> bool:
+        c = 0
+        curr = node.next
         while curr:
-            count += 1
+            c += 1
             curr = curr.next
-        return count
+            if c == k:
+                return True
+        return False
 
-    def reverseNodes(self, node, idx, k):
-        if idx == k:
-            return node, node, node.next
-        tail, head, nextCurr = self.reverseNodes(node.next, idx + 1, k)
-        tail.next = node
-        tail = tail.next
-        return tail, head, nextCurr
+    def reverseKNodes(self, node, k):
+        # return head, tail, nextHead
+        # base case: k == 1
+        new_node = ListNode(node.val)
+        if k == 1:
+            return new_node, new_node, node.next
+
+        head, tail, next_head = self.reverseKNodes(node.next, k - 1)
+        tail.next = new_node
+        return head, tail.next, next_head
 
 
 # @lc code=end
