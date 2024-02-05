@@ -6,21 +6,17 @@
 
 
 # @lc code=start
+from collections import Counter
+
+
 class Solution:
     def firstUniqChar(self, s: str) -> int:
         n = len(s)
-        unique = [True] * n  # unique[i] is True -> i is unique index
-        seen = {}  # map char to idx
-        for i, c in enumerate(s):
-            if c in seen:
-                unique[seen[c]] = False
-                unique[i] = False
-            seen[c] = i
-        if not any(unique):
-            return -1
+        freq = Counter(s)
         for i in range(n):
-            if unique[i]:
+            if freq[s[i]] == 1:
                 return i
+        return -1
 
 
 # @lc code=end
