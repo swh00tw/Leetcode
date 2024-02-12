@@ -4,6 +4,7 @@
 # [530] Minimum Absolute Difference in BST
 #
 
+
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -12,22 +13,16 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def __init__(self):
-        self.prevValue = -1
-        self.ans = inf
     def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
-        self.traverse(root)
+        self.ans = float("inf")
+        self.traverse(root, float("inf"), float("-inf"))
         return self.ans
 
-    def traverse(self, node):
-        # in-order traverse
+    def traverse(self, node, upperbound, lowerbound):
         if node:
-            self.traverse(node.left)
-            if self.prevValue != -1:
-                self.ans = min(self.ans, abs(node.val-self.prevValue))
-            self.prevValue = node.val
-            self.traverse(node.right)
-            
-        
-# @lc code=end
+            self.ans = min(self.ans, upperbound - node.val, node.val - lowerbound)
+            self.traverse(node.left, node.val, lowerbound)
+            self.traverse(node.right, upperbound, node.val)
 
+
+# @lc code=end
