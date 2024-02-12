@@ -14,20 +14,19 @@
 #         self.right = right
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        # recursive function
-        # inputs:
-        # 1. node: Optional[TreeNode]
-        # 2. upperBound: int
-        # 3. lowerBound: int
-        return self.validate(root, float("-inf"), float("inf"))
+        # three conditions need to be true
+        # root.val is within upperbound and lowerbound
+        # left tree is valid
+        # right tree is valid
+        return self.isValidRoot(root, float("-inf"), float("inf"))
 
-    def validate(self, node, low, high):
-        if not node:
+    def isValidRoot(self, root, lowerbound, upperbound):
+        if root is None:
             return True
-        if node.val >= high or node.val <= low:
-            return False
-        return self.validate(node.left, low, node.val) and self.validate(
-            node.right, node.val, high
+        return (
+            self.isValidRoot(root.left, lowerbound, root.val)
+            and self.isValidRoot(root.right, root.val, upperbound)
+            and (lowerbound < root.val < upperbound)
         )
 
 
