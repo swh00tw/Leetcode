@@ -4,37 +4,33 @@
 # [1004] Max Consecutive Ones III
 #
 
+
 # @lc code=start
 class Solution:
     def longestOnes(self, nums: List[int], k: int) -> int:
-        # two pointers
-        # traverse thru nums
-        # if encounter zero, spent a chance of fliping on it
-        # keep track of maximum length of consecutive 1s
-        # if we spent all chances and encounter zero,
-        # the left pointer should move to the right of first zero we spent our chance on
-        # move left pointer to the right of first flipping zero, (keep minus acc by 1)
-        l, r = 0, 0
-        acc = 0
-        best = 0
+        # sliding window
+        # use a var to keep track of best answer
+        # first, have k chances to ignore zero and keep counting
+        # if encounter next zero, need to move left pointer to the right of first zero it encounters
+        # (recycling the chance to ignore zero)
+        n = len(nums)
         chances = k
-        while r<len(nums):
-            if nums[r] == 0 and chances>0:
-                chances -= 1
-            elif nums[r]==0 and chances==0:
-                # save best score
-                best = max(best, acc)
-                # recalculate acc
-                while l<len(nums):
-                    acc -= 1
-                    if nums[l]==0:
-                        l = l+1
-                        break
-                    l += 1
-            acc += 1
-            r += 1
-        best = max(best, acc)
+        left = 0
+        best = 0
+        for right in range(n):
+            num = nums[right]
+            if num == 0:
+                if chances == 0:
+                    # recycle, move left
+                    while left <= right:
+                        if nums[left] == 0:
+                            break
+                        left += 1
+                    left += 1
+                else:
+                    chances -= 1
+            best = max(best, right + 1 - left)
         return best
-            
-# @lc code=end
 
+
+# @lc code=end
