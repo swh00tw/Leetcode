@@ -6,15 +6,17 @@
 
 # @lc code=start
 from collections import Counter
+
+
 class Solution:
     def uniqueOccurrences(self, arr: List[int]) -> bool:
-        counter = Counter(arr)
-        freq = set()
-        for v in counter.values():
-            if v in freq:
+        freq = Counter(arr)
+        numSet = set()
+        for v in freq.values():
+            if v in numSet:
                 return False
-            freq.add(v)
+            numSet.add(v)
         return True
-        
-# @lc code=end
 
+
+# @lc code=end
