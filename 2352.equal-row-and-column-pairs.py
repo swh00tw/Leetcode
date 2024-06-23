@@ -5,17 +5,24 @@
 #
 
 # @lc code=start
+from collections import defaultdict
+
+
 class Solution:
     def equalPairs(self, grid: List[List[int]]) -> int:
-        ans = 0
-        rows = {}
+        # brute force: n^3
+        # hashmap: use row as key (need to transform to tuple since list is not hashable), value is the frequency
+        freq = defaultdict(int)
+        n = len(grid)
         for row in grid:
-            rows[tuple(row)] = rows.get(tuple(row), 0)+1
+            freq[tuple(row)] += 1
         # transpose
-        transposeGrid=zip(*grid)
-        for col in transposeGrid:
-            ans += rows.get(col, 0)
+        ans = 0
+        transpose_grid = [[grid[j][i] for j in range(n)] for i in range(n)]
+        for row in transpose_grid:
+            if tuple(row) in freq:
+                ans += freq[tuple(row)]
         return ans
-        
-# @lc code=end
 
+
+# @lc code=end
