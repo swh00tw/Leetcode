@@ -5,16 +5,18 @@
 #
 
 # @lc code=start
+from collections import deque
+
+
 class Solution:
     def removeStars(self, s: str) -> str:
-        stack = []
+        stack = deque([])
         for c in s:
-            if c=="*":
-                if stack:
-                    stack.pop()
+            if c == "*" and stack:
+                stack.pop()
             else:
                 stack.append(c)
-        return ''.join(stack)
-        
-# @lc code=end
+        return "".join(stack)
 
+
+# @lc code=end
