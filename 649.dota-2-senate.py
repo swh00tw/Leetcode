@@ -4,26 +4,48 @@
 # [649] Dota2 Senate
 #
 
+from collections import deque
+
+
 # @lc code=start
 # ref: https://leetcode.com/problems/dota2-senate/solutions/3483399/simple-diagram-explanation/?envType=study-plan-v2&envId=leetcode-75
 class Solution:
     def predictPartyVictory(self, senate: str) -> str:
-        r = []
-        d = []
+        # maintain a queue
+        # first put 'R' or 'D' into queue in order
+        # then pop the first guy, he/she can use the power to ban one enemy, and add back to the queue
+        # in other word, the enemy behind need to be pop and skip
+        # if the queue only contains people from one party, they win
+        total_r = 0
         n = len(senate)
-        for i, s in enumerate(list(senate)):
-            if s== "R":
-                r.append(i)
-            else:
-                d.append(i)
-        while r and d:
-            rEarliest = r.pop(0)
-            dEarliest = d.pop(0)
-            if rEarliest < dEarliest:
-                r.append(rEarliest+n)
-            else:
-                d.append(dEarliest+n)
-        return "Radiant" if len(d)==0 else "Dire"
-        
-# @lc code=end
+        for c in senate:
+            if c == "R":
+                total_r += 1
+        total_d = n - total_r
 
+        skip_r = 0
+        skip_d = 0
+        queue = deque(list(senate))
+        while queue:
+            rOrd = queue.popleft()
+            if rOrd == "R":
+                if skip_r > 0:
+                    skip_r -= 1
+                    total_r -= 1
+                else:
+                    skip_d += 1
+                    queue.append(rOrd)
+            else:
+                if skip_d > 0:
+                    skip_d -= 1
+                    total_d -= 1
+                else:
+                    skip_r += 1
+                    queue.append(rOrd)
+            if total_d == 0:
+                return "Radiant"
+            elif total_r == 0:
+                return "Dire"
+
+
+# @lc code=end
