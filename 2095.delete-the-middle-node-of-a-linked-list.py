@@ -10,20 +10,25 @@
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
+
+
 class Solution:
     def deleteMiddle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        # fast pointer move two at a time, slow move one step at a time
+        # when fast pointer out of bound or reach the last node, stop
+        # the node where the slow pointer at is the middle one
         if not head.next:
-            # only contain head, head is middle, delete
             return None
-        
         slow = head
         fast = head
-        prev = None # store previous node behind slow pointer
+        prev = None
         while fast and fast.next:
             prev = slow
             slow = slow.next
             fast = fast.next.next
+        # re-link
         prev.next = slow.next
         return head
-# @lc code=end
 
+
+# @lc code=end
