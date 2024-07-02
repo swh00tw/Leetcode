@@ -4,6 +4,7 @@
 # [328] Odd Even Linked List
 #
 
+
 # @lc code=start
 # Definition for singly-linked list.
 # class ListNode:
@@ -12,25 +13,38 @@
 #         self.next = next
 class Solution:
     def oddEvenList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        if head is None or head.next is None:
+        # base case: length is 0 or 1
+        if not head or not head.next:
             return head
-        evenHead = head.next
+        # maintain 4 pointer
+        # odd head, odd tail
+        # even head, even tail
+        oh, ot = None, None
+        eh, et = None, None
+        i = 1
         curr = head
-        idx = 1
-        lastOdd = head
         while curr:
-            if idx%2==1:
-                lastOdd = curr
-            if curr.next is None:
-                break
-            nextNode = curr.next
-            curr.next = curr.next.next
-            curr = nextNode
-            idx += 1
-        lastOdd.next = evenHead
-        return head
+            next_curr = curr.next
+            curr.next = None
+            next_i = i + 1
+            if i % 2 != 0:
+                if oh is None:
+                    oh = curr
+                    ot = curr
+                else:
+                    ot.next = curr
+                    ot = ot.next
+            else:
+                if eh is None:
+                    eh = curr
+                    et = curr
+                else:
+                    et.next = curr
+                    et = et.next
+            curr = next_curr
+            i = next_i
+        ot.next = eh
+        return oh
 
-        
-        
+
 # @lc code=end
-
