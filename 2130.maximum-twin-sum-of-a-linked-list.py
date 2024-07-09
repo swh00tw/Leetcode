@@ -4,6 +4,7 @@
 # [2130] Maximum Twin Sum of a Linked List
 #
 
+
 # @lc code=start
 # Definition for singly-linked list.
 # class ListNode:
@@ -12,19 +13,22 @@
 #         self.next = next
 class Solution:
     def pairSum(self, head: Optional[ListNode]) -> int:
-        curr = head
+        # need to know "n" first
+        # use an array of n/2 to store twin sums
+        slow = head
         fast = head
-        res = -inf
-        stack = []
+        twin_sums = []
         while fast and fast.next:
-            stack.append(curr.val)
-            curr = curr.next
+            twin_sums.append(slow.val)
+            slow = slow.next
             fast = fast.next.next
-        while curr:
-            res = max(res, curr.val+stack.pop())
-            curr = curr.next
-        return res
+        n = len(twin_sums)
+        ans = float("-inf")
+        while slow:
+            n = twin_sums.pop()
+            ans = max(ans, n + slow.val)
+            slow = slow.next
+        return ans
 
-        
+
 # @lc code=end
-
