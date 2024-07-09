@@ -4,6 +4,7 @@
 # [872] Leaf-Similar Trees
 #
 
+
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -13,23 +14,16 @@
 #         self.right = right
 class Solution:
     def leafSimilar(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> bool:
-        leaf1 = self.getLeaf(root1)
-        leaf2 = self.getLeaf(root2)
-        return leaf1==leaf2
+        leave1 = self.getLeave(root1)
+        leave2 = self.getLeave(root2)
+        return leave1 == leave2
 
-    def getLeaf(self, root):
-        leaf = []
-        stack = [root]
-        while stack:
-            node = stack.pop()
-            if not (node.left or node.right): # isLeaf
-                leaf.append(node.val)
-            else:
-                if node.right:
-                    stack.append(node.right)
-                if node.left:
-                    stack.append(node.left)
-        return leaf
-        
+    def getLeave(self, root: Optional[TreeNode]) -> List[int]:
+        if not root:
+            return []
+        if not root.left and not root.right:
+            return [root.val]
+        return self.getLeave(root.left) + self.getLeave(root.right)
+
+
 # @lc code=end
-
