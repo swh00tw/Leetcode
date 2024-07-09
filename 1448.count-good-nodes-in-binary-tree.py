@@ -14,16 +14,20 @@
 #         self.right = right
 class Solution:
     def goodNodes(self, root: TreeNode) -> int:
-        self.ans = 0
-        self.visit(root, float("-inf"))
-        return self.ans
+        return self.visit(root, root.val)
 
-    def visit(self, node, currMax):
-        if node:
-            if node.val >= currMax:
-                self.ans += 1
-            self.visit(node.left, max(node.val, currMax))
-            self.visit(node.right, max(node.val, currMax))
+    def visit(self, node: Optional[TreeNode], maximum):
+        # recursive
+        # the num of good nodes for a node is
+        # (1 if this node is good else 0) + good nodes of left child + good nodes of right child
+        if not node:
+            return 0
+        newMax = max(maximum, node.val)
+        return (
+            (1 if node.val >= maximum else 0)
+            + self.visit(node.left, newMax)
+            + self.visit(node.right, newMax)
+        )
 
 
 # @lc code=end
