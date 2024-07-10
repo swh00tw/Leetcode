@@ -4,6 +4,7 @@
 # [1372] Longest ZigZag Path in a Binary Tree
 #
 
+
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -14,21 +15,24 @@
 class Solution:
     def __init__(self):
         self.longest = 0
-    def longestZigZag(self, root: Optional[TreeNode]) -> int:
-        if root is None:
-            return 0
-        self.traverse(root.left, 1, False)
-        self.traverse(root.right, 1, True)
-        return self.longest
-        
-    def traverse(self, node, lengthOfCurrZigZag, isRight):
-        if node:
-            self.longest = max(self.longest, lengthOfCurrZigZag)
-            if isRight:
-                self.traverse(node.right, 1, True)
-                self.traverse(node.left, lengthOfCurrZigZag+1, False)
-            else:
-                self.traverse(node.right, lengthOfCurrZigZag+1, True)
-                self.traverse(node.left, 1, False)
-# @lc code=end
 
+    def longestZigZag(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+        self.visit(root.left, False, 1)
+        self.visit(root.right, True, 1)
+        return self.longest
+
+    def visit(self, node, isRightChild, l):
+        if not node:
+            return
+        self.longest = max(l, self.longest)
+        if isRightChild:
+            self.visit(node.right, True, 1)
+            self.visit(node.left, False, l + 1)
+        else:
+            self.visit(node.left, False, 1)
+            self.visit(node.right, True, l + 1)
+
+
+# @lc code=end
