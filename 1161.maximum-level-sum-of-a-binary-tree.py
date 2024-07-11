@@ -4,6 +4,7 @@
 # [1161] Maximum Level Sum of a Binary Tree
 #
 
+
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -14,23 +15,25 @@
 class Solution:
     def maxLevelSum(self, root: Optional[TreeNode]) -> int:
         # BFS
-        q = [(root, 1)]
-        depthToVal = {}
-        maxDepth = 1
-        while q:
-            node, depth = q.pop(0)
-            maxDepth = max(maxDepth, depth)
-            depthToVal[depth] = depthToVal.get(depth, 0) + node.val
-            if node.left:
-                q.append((node.left, depth+1))
-            if node.right:
-                q.append((node.right, depth+1))
-                
-        ans = (root.val, 1) # val, depth
-        for depth in range(1, maxDepth+1):
-            if depthToVal[depth]>ans[0]:
-                ans = (depthToVal[depth], depth)
-        return ans[1]
-        
-# @lc code=end
+        if not root:
+            return 0
+        ans = (1, root.val)  # level, bestSum
+        queue = [root]
+        level = 1
+        while queue:
+            _nextQ = []
+            _sum = 0
+            for node in queue:
+                _sum += node.val
+                if node.left:
+                    _nextQ.append(node.left)
+                if node.right:
+                    _nextQ.append(node.right)
+            if _sum > ans[1]:
+                ans = (level, _sum)
+            queue = _nextQ
+            level += 1
+        return ans[0]
 
+
+# @lc code=end
