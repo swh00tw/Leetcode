@@ -4,6 +4,7 @@
 # [450] Delete Node in a BST
 #
 
+
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -16,8 +17,8 @@ class Solution:
         if root is None:
             return root
         return self.check(root, key)
-        
-    def check(self, node,  key):
+
+    def check(self, node, key):
         if node:
             if node.val == key:
                 # find predecessor for replacing
@@ -28,14 +29,14 @@ class Solution:
                 predecessor.right = node.right
                 return predecessor
             else:
-                if key>node.val:
+                if key > node.val:
                     node.right = self.check(node.right, key)
                 else:
                     node.left = self.check(node.left, key)
                 return node
         else:
             return None
-        
+
     def findPredecessor(self, node):
         prev = None
         if node.right is None:
@@ -51,6 +52,5 @@ class Solution:
             node.right = curr.right
         return curr
 
-        
-# @lc code=end
 
+# @lc code=end

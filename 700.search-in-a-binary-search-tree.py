@@ -4,6 +4,7 @@
 # [700] Search in a Binary Search Tree
 #
 
+
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
@@ -13,20 +14,20 @@
 #         self.right = right
 class Solution:
     def searchBST(self, root: Optional[TreeNode], val: int) -> Optional[TreeNode]:
-        return self.traverse(root, val)
+        return self.find(root, val)
 
-    def traverse(self, node, val):
-        if node:
-            if node.val == val:
-                return node
-            left = self.traverse(node.left, val)
-            right = self.traverse(node.right, val)
-            if left is None:
-                return right
-            else:
-                return left
-        else:
+    def find(self, node, val):
+        if not node:
             return None
-        
-# @lc code=end
+        if node.val == val:
+            return node
+        left = self.find(node.left, val)
+        if left:
+            return left
+        right = self.find(node.right, val)
+        if right:
+            return right
+        return None
 
+
+# @lc code=end
