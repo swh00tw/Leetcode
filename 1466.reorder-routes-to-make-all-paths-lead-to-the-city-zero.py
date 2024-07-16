@@ -5,31 +5,38 @@
 #
 
 # @lc code=start
-from collections import defaultdict
+from collections import defaultdict, deque
+
+
 class Solution:
     def minReorder(self, n: int, connections: List[List[int]]) -> int:
-        # create a undirected graph
-        # use BFS to visit all nodes from 0
-        # if the edges we use is in the opposite direction than expected, increment count by 1
+        # use a adj matrix to represent (directed) graph
+        # from source node 0, run bfs or dfs to traverse the graph
+        # if at node A, and between node A and node B have a link, find one reverse link, count it
+        # return count
+        oldRoads = set([(i, j) for i, j in connections])
         adjList = defaultdict(list)
-        reverseRoutes = set()
         for src, dst in connections:
             adjList[src].append(dst)
             adjList[dst].append(src)
-            reverseRoutes.add((dst, src))
-        # BFS
-        count = 0
-        visited = [False]*n
-        visited[0]=True
-        q = [0]
+        # DFS
+        visited = [False] * n
+        visited[0] = True
+        q = deque([0])
+        newRoads = []
         while q:
-            cityIdx = q.pop(0)
-            for adjIdx in adjList[cityIdx]:
-                if visited[adjIdx]==False:
-                    visited[adjIdx]=True
-                    q.append(adjIdx)
-                    if (cityIdx, adjIdx) not in reverseRoutes:
-                        count+=1
-        return count
-# @lc code=end
+            idx = q.popleft()
+            for adjNodeIdx in adjList[idx]:
+                if not visited[adjNodeIdx]:
+                    newRoads.append((adjNodeIdx, idx))
+                    q.append(adjNodeIdx)
+                    visited[adjNodeIdx] = True
 
+        ans = 0
+        for src, dst in newRoads:
+            if (src, dst) not in oldRoads:
+                ans += 1
+        return ans
+
+
+# @lc code=end
