@@ -6,24 +6,30 @@
 
 # @lc code=start
 import heapq
+
+
 class SmallestInfiniteSet:
 
     def __init__(self):
-        self.minNum = 1 # keep track of current starting number of continuous part
-        self.pq = [] # priority queue (minHeap) store the numbers added back (smaller than minNum ofc)
+        self.nextSmallestNum = 1
+        self.pq = []  # store num put back
+        self.numsPutback = set()
 
     def popSmallest(self) -> int:
-        if len(self.pq)!=0:
-            return heapq.heappop(self.pq)
-        else:
-            self.minNum+=1
-            return self.minNum-1
+        if not self.pq:
+            ans = self.nextSmallestNum
+            self.nextSmallestNum += 1
+            return ans
+        ans = heapq.heappop(self.pq)
+        self.numsPutback.remove(ans)
+        return ans
 
     def addBack(self, num: int) -> None:
-        if num< self.minNum and num not in self.pq:
+        if num >= self.nextSmallestNum:
+            return
+        if num not in self.numsPutback:
+            self.numsPutback.add(num)
             heapq.heappush(self.pq, num)
-
-        
 
 
 # Your SmallestInfiniteSet object will be instantiated and called as such:
@@ -31,4 +37,3 @@ class SmallestInfiniteSet:
 # param_1 = obj.popSmallest()
 # obj.addBack(num)
 # @lc code=end
-
