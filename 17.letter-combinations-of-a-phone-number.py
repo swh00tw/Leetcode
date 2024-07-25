@@ -8,7 +8,7 @@
 # @lc code=start
 class Solution:
     def __init__(self):
-        self.digitCharMap = {
+        self.map = {
             2: "abc",
             3: "def",
             4: "ghi",
@@ -20,18 +20,19 @@ class Solution:
         }
 
     def letterCombinations(self, digits: str) -> List[str]:
+        # recursive
+        # edge case: len(digits) == 0: return []
+        # get the first digit in digits,
+        # append the possible first letter for all combination in letterCombinations(digits[1:])
         if len(digits) == 0:
             return []
-        firstDigit = int(digits[0])
-        subanswers = self.letterCombinations(digits[1:])
-        if len(subanswers) > 0:
-            return [
-                firstChar + subans
-                for firstChar in self.digitCharMap[firstDigit]
-                for subans in subanswers
-            ]
-        else:
-            return [char for char in self.digitCharMap[firstDigit]]
+        allCombinations = self.letterCombinations(digits[1:])
+        key = int(digits[0])
+        if not allCombinations:
+            return list(self.map[key])
+        return [
+            letter + comb for letter in list(self.map[key]) for comb in allCombinations
+        ]
 
 
 # @lc code=end
