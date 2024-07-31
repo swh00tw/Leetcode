@@ -5,8 +5,13 @@
  */
 
 // @lc code=start
+package main
 
-import "math/big"
+import (
+	"fmt"
+	"math"
+	"math/big"
+)
 
 func product(n, lim int) *big.Int {
 	res := big.NewInt(1)
@@ -43,4 +48,3 @@ func bigIntToInt(b *big.Int) (int, error) {
 }
 
 // @lc code=end
-
