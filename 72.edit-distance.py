@@ -12,10 +12,11 @@
 # Optimal substructure:
 # minDistamce[i,j] = minDistance[i-1, j-1] if xi == yj
 # else, minDistance[i,j] = min(
-#                           minDistance[i - 1][j] + 1,       # insert
-#                           minDistance[i][j - 1] + 1,       # delete
+#                           minDistance[i - 1][j] + 1,       # delete
+#                           minDistance[i][j - 1] + 1,       # insert
 #                           minDistance[i - 1][j - 1] + 1    # replace
 #                           )
+
 
 class Solution:
     def minDistance(self, word1: str, word2: str) -> int:
@@ -35,13 +36,10 @@ class Solution:
                 # find min of insert, replace, remove a character
                 else:
                     dp[i][j] = min(
-                        dp[i - 1][j] + 1,
-                        dp[i][j - 1] + 1,
-                        dp[i - 1][j - 1] + 1
+                        dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + 1
                     )
-        
+
         return dp[m][n]
 
-        
-# @lc code=end
 
+# @lc code=end
