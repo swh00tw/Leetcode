@@ -11,7 +11,6 @@ func singleNumber(nums []int) int {
 		ans = ans ^ val
 	}
 	return ans
-
 }
 
 // @lc code=end
