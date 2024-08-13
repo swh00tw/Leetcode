@@ -20,44 +20,47 @@ func Constructor() Trie {
 }
 
 func (this *Trie) Insert(word string) {
-	currTrie := *this
-	for _, letter := range word {
-		// insert letter to currTrie._t
-		t, ok := currTrie._t[letter]
-		if ok == false {
-			newTrie := Constructor()
-			currTrie._t[letter] = newTrie
-			currTrie = newTrie
-		} else {
-			currTrie = t
-		}
+	if len(word) == 0 {
+		this._t[endSymbol] = Constructor()
+		return
 	}
-	currTrie._t[endSymbol] = Constructor()
+	letter := rune(word[0])
+	rest := word[1:]
+	if inner, ok := this._t[letter]; !ok {
+		newTrie := Constructor()
+		this._t[letter] = newTrie
+		newTrie.Insert(rest)
+	} else {
+		inner.Insert(rest)
+	}
 }
 
 func (this *Trie) Search(word string) bool {
-	currTrie := *this
-	for _, letter := range word {
-		innerTrie, ok := currTrie._t[letter]
-		if ok == false {
-			return false
-		}
-		currTrie = innerTrie
+	if len(word) == 0 {
+		_, ok := this._t[endSymbol]
+		return ok
 	}
-	_, ok := currTrie._t[endSymbol]
-	return ok
+	letter := rune(word[0])
+	rest := word[1:]
+	innerTrie, ok := this._t[letter]
+	if !ok {
+		return false
+	}
+	return innerTrie.Search(rest)
+
 }
 
 func (this *Trie) StartsWith(prefix string) bool {
-	currTrie := *this
-	for _, letter := range prefix {
-		innerTrie, ok := currTrie._t[letter]
-		if ok == false {
-			return false
-		}
-		currTrie = innerTrie
+	if len(prefix) == 0 {
+		return len(this._t) > 0
 	}
-	return len(currTrie._t) > 0
+	letter := rune(prefix[0])
+	rest := prefix[1:]
+	innerTrie, ok := this._t[letter]
+	if !ok {
+		return false
+	}
+	return innerTrie.StartsWith(rest)
 }
 
 /**
