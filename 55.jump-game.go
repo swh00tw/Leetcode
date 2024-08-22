@@ -7,8 +7,31 @@
 // @lc code=start
 package main
 
-import "fmt"
+/*
+  1. BFS
+  2. Backward greedy approach:
+  func canJump(nums []int) bool {
+    n := len(nums)
+    // canReach := make([]bool,n)
+    // canReach[n-1]=true
+    closestReachablePosition := n-1
+    for i:=n-2;i>=0;i--{
+        maxJumpsFromHere := nums[i]
+        // for j:=1;j<=maxJumpsFromHere && i+j<n ;j++{
+        //     if canReach[i+j]{
+        //         canReach[i]=true
+        //         break
+        //     }
+        // }
+        if i+maxJumpsFromHere>=closestReachablePosition{
+            closestReachablePosition = i
+        }
+    }
+    return closestReachablePosition==0
+}
+*/
 
+/*
 type Queue []int
 
 func (q *Queue) Enqueue(val int) {
@@ -51,6 +74,18 @@ func canJump(nums []int) bool {
 		}
 	}
 	return visited[n-1]
+}*/
+
+func canJump(nums []int) bool {
+	n := len(nums)
+	closestReachablePosition := n - 1
+	for i := n - 2; i >= 0; i-- {
+		maxJumpsFromHere := nums[i]
+		if i+maxJumpsFromHere >= closestReachablePosition {
+			closestReachablePosition = i
+		}
+	}
+	return closestReachablePosition == 0
 }
 
 // @lc code=end
