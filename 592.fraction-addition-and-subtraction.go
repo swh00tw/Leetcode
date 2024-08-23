@@ -73,6 +73,7 @@ func (f *Fraction) Reduce() {
 	if f.numerator == 0 {
 		f.denominator = 1
 		f.isPositive = true
+		return
 	}
 	gcd := GCD(abs(f.numerator), abs(f.denominator))
 	f.numerator = f.numerator / gcd
