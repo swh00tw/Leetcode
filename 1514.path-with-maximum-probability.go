@@ -24,25 +24,28 @@ type HeapItem struct {
 	idx int
 }
 
-type Heap []HeapItem
+type MaxHeap []HeapItem
 
-func (pq *Heap) Len() int {
+func (pq *MaxHeap) Len() int {
 	return len(*pq)
 }
 
-func (pq *Heap) Less(i, j int) bool {
-	return (*pq)[i].val < (*pq)[j].val
+// Since it's MAXHEAP, the compare direction need to reverse here
+func (pq *MaxHeap) Less(i, j int) bool {
+	v1 := (*pq)[i].val
+	v2 := (*pq)[j].val
+	return v1 > v2
 }
 
-func (pq *Heap) Swap(i, j int) {
+func (pq *MaxHeap) Swap(i, j int) {
 	(*pq)[i], (*pq)[j] = (*pq)[j], (*pq)[i]
 }
 
-func (pq *Heap) Push(i any) {
+func (pq *MaxHeap) Push(i any) {
 	*pq = append(*pq, i.(HeapItem))
 }
 
-func (pq *Heap) Pop() any {
+func (pq *MaxHeap) Pop() any {
 	l := len(*pq)
 	v := (*pq)[l-1]
 	*pq = (*pq)[:l-1]
@@ -83,14 +86,14 @@ func maxProbability(n int, edges [][]int, succProb []float64, start int, end int
 	// dijkstra
 	distance := make([]float64, n)
 	distance[start] = 1.0
-	pq := &Heap{}
+	pq := &MaxHeap{}
 	heap.Push(pq, HeapItem{
-		val: -1.0,
+		val: 1.0,
 		idx: start,
 	})
 	for pq.Len() > 0 {
 		node := heap.Pop(pq).(HeapItem)
-		p := -node.val
+		p := node.val
 		if node.idx == end {
 			return p
 		}
@@ -99,7 +102,7 @@ func maxProbability(n int, edges [][]int, succProb []float64, start int, end int
 			if p*neighbor.prob > distance[neighbor.dst] {
 				distance[neighbor.dst] = p * neighbor.prob
 				heap.Push(pq, HeapItem{
-					val: -p * neighbor.prob,
+					val: p * neighbor.prob,
 					idx: neighbor.dst,
 				})
 			}
