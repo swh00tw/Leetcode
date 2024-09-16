@@ -33,7 +33,7 @@ func findMinDifference(timePoints []string) int {
 	sort.Slice(ts, func(i, j int) bool {
 		return ts[i] < ts[j]
 	})
-	//
+
 	ts = append(ts, ts[0])
 	diff := math.MaxInt
 	day := 24 * 60
