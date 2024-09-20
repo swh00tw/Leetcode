@@ -7,7 +7,7 @@
 // @lc code=start
 package main
 
-// ref:https://leetcode.com/problems/find-the-longest-substring-containing-vowels-in-even-counts/solutions/5788167/easiest-approach-fully-explained-must-watch
+// ref: shttps://leetcode.com/problems/find-the-longest-substring-containing-vowels-in-even-counts/solutions/5788167/easiest-approach-fully-explained-must-watch
 
 func findTheLongestSubstring(s string) int {
 	mask := 0
