@@ -15,38 +15,45 @@
  */
 package main
 
+/*
+maintain a stack of *TreeNode
+Next() just pop the top item of the stack and push if it has right child (and the leftmost child)
+HasNext(), if the stack is not empty, return true, otherwis, false
+*/
 type BSTIterator struct {
-	values  []int
-	currIdx int
+	stack []*TreeNode
+}
+
+func pushRightSubtree(currStack []*TreeNode, root *TreeNode) []*TreeNode {
+	nodes := make([]*TreeNode, 0)
+	curr := root
+	for curr != nil {
+		nodes = append(nodes, curr)
+		curr = curr.Left
+	}
+	newStack := append(currStack, nodes...)
+	return newStack
 }
 
 func Constructor(root *TreeNode) BSTIterator {
-	// perform inorder traversal
-	values := []int{}
-	var visit func(node *TreeNode)
-	visit = func(node *TreeNode) {
-		if node == nil {
-			return
-		}
-		visit(node.Left)
-		values = append(values, node.Val)
-		visit(node.Right)
-	}
-	visit(root)
+	initStack := make([]*TreeNode, 0)
+	nodes := pushRightSubtree(initStack, root)
 	return BSTIterator{
-		values:  values,
-		currIdx: 0,
+		stack: nodes,
 	}
 }
 
 func (this *BSTIterator) Next() int {
-	idx := this.currIdx
-	this.currIdx++
-	return this.values[idx]
+	// pop item from stack
+	node := this.stack[len(this.stack)-1]
+	this.stack = this.stack[:len(this.stack)-1]
+	// append right subtree
+	this.stack = pushRightSubtree(this.stack, node.Right)
+	return node.Val
 }
 
 func (this *BSTIterator) HasNext() bool {
-	return this.currIdx < len(this.values)
+	return len(this.stack) > 0
 }
 
 /**
