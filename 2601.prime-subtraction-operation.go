@@ -65,4 +65,10 @@ func cached[T comparable](fn func(T) bool) func(T) bool {
 	}
 }
 
+/*
+  Answer 2: https://leetcode.com/problems/prime-subtraction-operation/solutions/3342106/neat-golang-binary-search/?envType=daily-question&envId=2024-11-11
+  1. first, list all primes between 2 and 1000
+  2. same structure as above, but for finding the best newLowerBound, use binary search
+*/
+
 // @lc code=end
