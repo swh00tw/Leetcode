@@ -7,47 +7,65 @@
 // @lc code=start
 package main
 
-import "slices"
+import (
+	"slices"
+)
 
 /*
-use a 2d array to represent the graph, m*3
-n = len(hright)
-m = max_height
-For each height, store 3 nums
-1. lowest point
-2. highest point
-3. number of cell at this height
-
-iterate from 0 to max_height,
-count how many empty missing number in array from lowest to height
-heighest - (lowest -1) - num_of_cells
+Finds trapping intervals
 */
 func trap(height []int) int {
-	m := slices.Max(height)
-	graph := make([][]int, m)
-	for i := 0; i < m; i++ {
-		graph[i] = []int{-1, -1, 0}
+	if len(height) <= 2 {
+		return 0
 	}
-
-	for i, h := range height {
-		for j := 0; j < h; j++ {
-			if graph[j][0] == -1 {
-				graph[j][0] = i
-			} else {
-				graph[j][1] = i
+	var count func(height []int) []int
+	count = func(height []int) []int {
+		// 2 pointers
+		intervals := [][]int{}
+		n := len(height)
+		l, r := 0, 0
+		for r < n {
+			if l == r {
+				r++
+				continue
 			}
-			graph[j][2]++
+			if height[r] < height[l] {
+				r++
+			} else {
+				interval := []int{l, r}
+				if r > l+1 {
+					intervals = append(intervals, interval)
+				}
+				l = r
+			}
 		}
+		// count trap volume
+		ans := 0
+		for _, interval := range intervals {
+			left := height[interval[0]]
+			right := height[interval[1]]
+			waterline := min(left, right)
+			for i := interval[0] + 1; i < interval[1]; i++ {
+				ans += waterline - height[i]
+			}
+		}
+		return []int{ans, l}
 	}
+	ans1 := count(height)
+	// if l not reach end, reverse the rest and keep finding intervals
+	if ans1[1] != len(height)-1 {
+		res := height[ans1[1]:]
+		slices.Reverse(res)
+		return ans1[0] + count(res)[0]
+	}
+	return ans1[0]
+}
 
-	count := 0
-	for i := 0; i < m; i++ {
-		level := graph[i]
-		if level[2] > 1 {
-			count += level[1] - level[0] + 1 - level[2]
-		}
+func min(x, y int) int {
+	if x < y {
+		return x
 	}
-	return count
+	return y
 }
 
 // @lc code=end
