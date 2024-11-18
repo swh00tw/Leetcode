@@ -19,7 +19,7 @@ func decrypt(code []int, k int) []int {
 	if k == 0 {
 		return make([]int, len(code))
 	}
-	// if k >= 0
+	// if k > 0
 	sum := 0
 	for _, v := range code {
 		sum += v
