@@ -18,4 +18,3 @@ func divideArray(nums []int) bool {
 }
 
 // @leet end
-
