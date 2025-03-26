@@ -34,7 +34,4 @@ func minOperations(grid [][]int, x int) int {
 	return steps
 }
 
-// another sol: https://leetcode.com/problems/minimum-operations-to-make-a-uni-value-grid/solutions/6537643/99-48-o-mn-k-is-that-how-we-write-it
-
 // @leet end
-
