@@ -14,19 +14,23 @@ func partitionLabels(s string) []int {
 			letterStartEndIndice[byte(b)][1] = i
 		}
 	}
+	ans := []int{}
+	l := 0
 	r := 0
 	n := len(s)
-	endIdx := letterStartEndIndice[s[0]][1]
-	for r < n {
-		endIdx = max(endIdx, letterStartEndIndice[s[r]][1])
-		r++
-		if r > endIdx {
-			break
+	for l < n {
+		endIdx := letterStartEndIndice[s[l]][1]
+		for r < n {
+			endIdx = max(endIdx, letterStartEndIndice[s[r]][1])
+			r++
+			if r > endIdx {
+				break
+			}
 		}
+		ans = append(ans, r-l)
+		l = r
 	}
-	subans := partitionLabels(s[r:])
-	return append([]int{r}, subans...)
+	return ans
 }
 
 // @leet end
-
