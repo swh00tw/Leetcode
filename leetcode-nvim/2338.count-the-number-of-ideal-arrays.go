@@ -1,6 +1,7 @@
 package main
 
 // @leet start
+// part of ans: https://claude.ai/share/0c4928c5-9e90-48ad-8d6d-a6bdb594c76e
 const MOD = 1000000007 // 10^9 + 7
 
 // primeFactorize returns the prime factorization of m as a map of prime factors to their counts
@@ -117,4 +118,3 @@ func idealArrays(n int, maxValue int) int {
 }
 
 // @leet end
-
