@@ -10,7 +10,7 @@ package main
  * }
  */
 func lcaDeepestLeaves(root *TreeNode) *TreeNode {
-	// create a recursive func(node), return len of the path from curr to the deepest leaves, and lca of deepest leaves
+	// create a recursive func(node), return len of the path from curr to the deepest leaves, and lca
 	// base case: if reach nil node, return 0, nil
 	// else, if the length of left and right subtrees is the same, lca is curr node, return length+1, curr
 	// if left is deeper, return answer from left
@@ -36,4 +36,3 @@ func lcaDeepestLeaves(root *TreeNode) *TreeNode {
 }
 
 // @leet end
-
