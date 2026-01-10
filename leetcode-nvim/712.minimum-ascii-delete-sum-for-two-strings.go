@@ -37,9 +37,11 @@ func minimumDeleteSum(s1 string, s2 string) int {
 		if val, ok := cache[key]; ok {
 			return val
 		}
-		ans := min(int(s2[y-1])+getAns(x, y-1), int(s1[x-1])+getAns(x-1, y))
+		var ans int
 		if s1[x-1] == s2[y-1] {
-			ans = min(ans, getAns(x-1, y-1))
+			ans = getAns(x-1, y-1)
+		} else {
+			ans = min(int(s2[y-1])+getAns(x, y-1), int(s1[x-1])+getAns(x-1, y))
 		}
 
 		cache[key] = ans
@@ -50,4 +52,3 @@ func minimumDeleteSum(s1 string, s2 string) int {
 }
 
 // @leet end
-
